@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(node generate-index.js)",
+      "Bash(rm generate-index.js)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(npx tsc:*)",
+      "Bash(pandoc \"D:\\\\Auriga\\\\Roles and Permision\\\\Employee List Mar 2026.docx\" -o \"D:\\\\Auriga\\\\Roles and Permision\\\\employee_list.md\")",
+      "Read(//d/Auriga/Roles and Permision/**)",
+      "Bash(python scripts/office/unpack.py \"D:\\\\Auriga\\\\Roles and Permision\\\\Employee List Mar 2026.docx\" \"D:\\\\Auriga\\\\Roles and Permision\\\\unpacked/\")",
+      "Bash(node seeders/seedEmployees.js)",
+      "Bash(node -e \":*)",
+      "Bash(node seeders/cleanReseed.js)",
+      "Bash(curl -s http://localhost:5000/api/auth/login -X POST -H \"Content-Type: application/json\" -d '{\"\"\"\"username\"\"\"\":\"\"\"\"admin\"\"\"\",\"\"\"\"password\"\"\"\":\"\"\"\"admin123\"\"\"\"}')",
+      "Bash(netstat -ano)",
+      "Bash(taskkill //PID 17384 //F)",
+      "Bash(taskkill //PID 15672 //F)",
+      "Bash(node seeders/seed-locations.js)",
+      "Skill(update-config)",
+      "Skill(update-config:*)",
+      "Bash(curl -s http://localhost:5000/api/auth/login -X POST -H \"Content-Type: application/json\" -d '{\"\"username\"\":\"\"admin\"\",\"\"password\"\":\"\"admin123\"\"}')",
+      "Bash(curl -s http://localhost:5000/api/health)",
+      "Bash(curl -s http://localhost:5000/api/auth/login -X POST -H \"Content-Type: application/json\" -d \"{\"\"username\"\":\"\"admin\"\",\"\"password\"\":\"\"admin123\"\"}\")",
+      "Bash(curl -s http://localhost:5000/api/auth/login -X POST -H \"Content-Type: application/json\" -d \"{\"\"username\"\":\"\"sanjeev.danker\"\",\"\"password\"\":\"\"test123\"\"}\")"
+    ]
+  }
+}
