@@ -12,7 +12,7 @@ export function useAuth() {
 
   const hasRole = (role: string) => user?.role === role;
   const isAdmin = user?.role === 'ADMIN' || user?.role === 'LAB_DIRECTOR';
-
+    
   return {
     user,
     token,
