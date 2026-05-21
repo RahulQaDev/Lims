@@ -78,6 +78,7 @@ async function seed() {
       { username: 'reviewer_user', email: 'reviewer@lims.com', fullName: 'Reviewer User', role: 'reviewer' },
       { username: 'approver_user', email: 'approver@lims.com', fullName: 'Approver User', role: 'approver' },
       { username: 'accounts_user', email: 'accounts@lims.com', fullName: 'Accounts User', role: 'accounts' },
+      { username: 'qa_user', email: 'qa@lims.com', fullName: 'Quality Head', role: 'qa' },
     ];
 
     for (const r of testRoles) {
@@ -275,17 +276,28 @@ async function seed() {
     }
     console.log('  Created ' + clients.length + ' clients.');
 
+    // ---------- 3g. Signatories module (Delhi) ----------
+    console.log('--- Step 3g: Seeding signatories module (Delhi unit) ---');
+    const { seedSignatories } = require('./signatories.seed');
+    const sigStats = await seedSignatories(db);
+
     // ============================================================
     // Done
     // ============================================================
     console.log('\n=== Seeding completed successfully! ===');
     console.log('Summary:');
-    console.log('  Users:        8');
-    console.log('  Departments:  ' + (analyticalDepts.length + administrativeDepts.length));
-    console.log('  Product Types: ' + productTypes.length);
-    console.log('  Standards:    ' + standards.length);
-    console.log('  Test Masters: ' + testMasters.length);
-    console.log('  Clients:      ' + clients.length);
+    console.log('  Users:           ' + (2 + testRoles.length));
+    console.log('  Departments:     ' + (analyticalDepts.length + administrativeDepts.length));
+    console.log('  Product Types:   ' + productTypes.length);
+    console.log('  Standards:       ' + standards.length);
+    console.log('  Test Masters:    ' + testMasters.length);
+    console.log('  Clients:         ' + clients.length);
+    console.log('  Sig Templates:   ' + sigStats.templates);
+    console.log('  Sig Disciplines: ' + sigStats.disciplines);
+    console.log('  Signatories:     ' + sigStats.signatories);
+    console.log('  Authority Rows:  ' + sigStats.authorities);
+    console.log('  Substitutions:   ' + sigStats.substitutions);
+    console.log('  Absences:        ' + sigStats.absences);
 
     process.exit(0);
   } catch (error) {

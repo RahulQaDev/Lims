@@ -28,6 +28,16 @@ import ClientPortalPage from './pages/clients/ClientPortalPage';
 import OutsourcePage from './pages/outsource/OutsourcePage';
 import BookingPage from './pages/booking/BookingPage';
 import BookingDetailPage from './pages/booking/BookingDetailPage';
+import BarCodingPage from './pages/booking/BarCodingPage';
+import QuotationsPage from './pages/booking/QuotationsPage';
+import IndentsPage from './pages/booking/IndentsPage';
+import MailerPage from './pages/booking/MailerPage';
+import TicketsPage from './pages/booking/TicketsPage';
+import SignatoryMatrixPage from './pages/quality/SignatoryMatrixPage';
+import SignatoryProfilePage from './pages/quality/SignatoryProfilePage';
+import SignatoryTemplatePage from './pages/quality/SignatoryTemplatePage';
+import SignatoryCoveragePage from './pages/quality/SignatoryCoveragePage';
+import SignatoryAbsencePage from './pages/quality/SignatoryAbsencePage';
 import DepartmentWorkPage from './pages/analysis/DepartmentWorkPage';
 import ResultEntryPage from './pages/analysis/ResultEntryPage';
 import ReportsPage from './pages/reports/ReportsPage';
@@ -166,6 +176,20 @@ export default function App() {
         <Route path="/settings/profile" element={<ProfilePage />} />
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="/notifications" element={<NotificationsPage />} />
+
+        {/* Booking-role modules */}
+        <Route path="/samples/barcoding" element={<BarCodingPage />} />
+        <Route path="/quotations"        element={<QuotationsPage />} />
+        <Route path="/indents"           element={<IndentsPage />} />
+        <Route path="/mailer"            element={<MailerPage />} />
+        <Route path="/tickets"           element={<TicketsPage />} />
+
+        {/* Quality > Signatories module */}
+        <Route path="/quality/signatories"             element={<SignatoryMatrixPage />} />
+        <Route path="/quality/signatories/templates"   element={<SignatoryTemplatePage />} />
+        <Route path="/quality/signatories/coverage"    element={<SignatoryCoveragePage />} />
+        <Route path="/quality/signatories/absences"    element={<SignatoryAbsencePage />} />
+        <Route path="/quality/signatories/:id"         element={<SignatoryProfilePage />} />
       </Route>
 
       {/* Default redirect */}

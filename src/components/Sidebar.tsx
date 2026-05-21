@@ -62,6 +62,17 @@ interface NavGroup {
   hideRoles?: string[];
 }
 
+// Booking role sidebar (per Booking Personnel role matrix):
+//   Sample Management  → Test Request Form (Book Sample), Bar Coding
+//   Customer Relations → Client Profile
+//   Masters            → Product Master
+//   Quotation & Pricing→ Quotation
+//   Purchase & Indent  → Purchase Order, Indent
+//   Support            → Mailer, Ticket
+//   Administration     → Employee Profile, Notifications
+//
+// Items the Booking role should NOT see are marked with hideRoles: ['BOOKING'].
+
 const navigation: NavGroup[] = [
   {
     label: '',
@@ -74,14 +85,16 @@ const navigation: NavGroup[] = [
   {
     label: 'Sample Management',
     items: [
-      { label: 'Reception', path: '/samples/reception', icon: PackagePlus },
-      { label: 'Booking', path: '/booking', icon: BookOpen },
-      { label: 'Sample Tracking', path: '/samples/tracking', icon: Search },
-      { label: 'Sample Transfer', path: '/samples/transfers', icon: ArrowLeftRight },
+      { label: 'Reception',           path: '/samples/reception',   icon: PackagePlus,     hideRoles: ['BOOKING'] },
+      { label: 'Test Request Form',   path: '/booking',             icon: BookOpen },
+      { label: 'Bar Coding',          path: '/samples/barcoding',   icon: Layout,          roles: ['BOOKING'] },
+      { label: 'Sample Tracking',     path: '/samples/tracking',    icon: Search,          hideRoles: ['BOOKING'] },
+      { label: 'Sample Transfer',     path: '/samples/transfers',   icon: ArrowLeftRight,  hideRoles: ['BOOKING'] },
     ],
   },
   {
     label: 'Analysis',
+    hideRoles: ['BOOKING'],
     items: [
       { label: 'Department Work', path: '/analysis/department', icon: FlaskConical },
       { label: 'Result Entry', path: '/analysis/results', icon: FileEdit },
@@ -90,6 +103,7 @@ const navigation: NavGroup[] = [
   },
   {
     label: 'Output',
+    hideRoles: ['BOOKING'],
     items: [
       { label: 'CoA Management', path: '/coa', icon: FileText },
       { label: 'CoA Templates', path: '/coa/templates', icon: Layout },
@@ -97,7 +111,38 @@ const navigation: NavGroup[] = [
     ],
   },
   {
+    label: 'Customer Relations',
+    roles: ['BOOKING'],
+    items: [
+      { label: 'Client Profile', path: '/clients', icon: Users },
+    ],
+  },
+  {
+    label: 'Quotation & Pricing',
+    roles: ['BOOKING'],
+    items: [
+      { label: 'Quotation', path: '/quotations', icon: FileText },
+    ],
+  },
+  {
+    label: 'Purchase & Indent',
+    roles: ['BOOKING'],
+    items: [
+      { label: 'Purchase Order', path: '/inventory/purchase-orders', icon: ShoppingCart },
+      { label: 'Indent',         path: '/indents',                   icon: Package },
+    ],
+  },
+  {
+    label: 'Support',
+    roles: ['BOOKING'],
+    items: [
+      { label: 'Mailer', path: '/mailer',  icon: Bell },
+      { label: 'Ticket', path: '/tickets', icon: FileText },
+    ],
+  },
+  {
     label: 'Business',
+    hideRoles: ['BOOKING'],
     items: [
       { label: 'Invoicing', path: '/invoicing', icon: Receipt },
       { label: 'Client Portal', path: '/clients', icon: Users },
@@ -106,6 +151,7 @@ const navigation: NavGroup[] = [
   },
   {
     label: 'Reports',
+    hideRoles: ['BOOKING'],
     items: [
       { label: 'MIS Reports', path: '/reports', icon: BarChart3 },
       { label: 'Analytics', path: '/reports/analytics', icon: TrendingUp },
@@ -113,7 +159,18 @@ const navigation: NavGroup[] = [
     ],
   },
   {
+    label: 'Quality Management',
+    roles: ['ADMIN', 'LAB_HEAD', 'QA'],
+    items: [
+      { label: 'Authority Matrix',  path: '/quality/signatories',           icon: Grid3X3 },
+      { label: 'Template View',     path: '/quality/signatories/templates', icon: FileText },
+      { label: 'Today\'s Coverage', path: '/quality/signatories/coverage',  icon: Shield },
+      { label: 'Absence Calendar',  path: '/quality/signatories/absences',  icon: Calendar },
+    ],
+  },
+  {
     label: 'Planning',
+    hideRoles: ['BOOKING'],
     items: [
       { label: 'Lab Planner', path: '/planning/lab', icon: Calendar },
       { label: 'Department Planner', path: '/planning/department', icon: ClipboardList },
@@ -122,17 +179,18 @@ const navigation: NavGroup[] = [
   {
     label: 'Masters',
     items: [
-      { label: 'Clients', path: '/masters/clients', icon: Building2 },
-      { label: 'Departments', path: '/masters/departments', icon: Layers },
-      { label: 'Tests', path: '/masters/tests', icon: TestTube },
-      { label: 'Standards', path: '/masters/standards', icon: BookCopy },
-      { label: 'Products', path: '/masters/products', icon: Package },
-      { label: 'Instruments', path: '/masters/instruments', icon: Cpu },
-      { label: 'Rate Card', path: '/masters/rates', icon: DollarSign },
+      { label: 'Clients',     path: '/masters/clients',     icon: Building2,   hideRoles: ['BOOKING'] },
+      { label: 'Departments', path: '/masters/departments', icon: Layers,      hideRoles: ['BOOKING'] },
+      { label: 'Tests',       path: '/masters/tests',       icon: TestTube,    hideRoles: ['BOOKING'] },
+      { label: 'Standards',   path: '/masters/standards',   icon: BookCopy,    hideRoles: ['BOOKING'] },
+      { label: 'Products',    path: '/masters/products',    icon: Package },
+      { label: 'Instruments', path: '/masters/instruments', icon: Cpu,         hideRoles: ['BOOKING'] },
+      { label: 'Rate Card',   path: '/masters/rates',       icon: DollarSign,  hideRoles: ['BOOKING'] },
     ],
   },
   {
     label: 'Inventory',
+    hideRoles: ['BOOKING'],
     items: [
       { label: 'Stock Management', path: '/inventory', icon: Warehouse },
       { label: 'Purchase Orders', path: '/inventory/purchase-orders', icon: ShoppingCart },
@@ -143,16 +201,16 @@ const navigation: NavGroup[] = [
   {
     label: 'Administration',
     items: [
-      { label: 'Users', path: '/settings/users', icon: UserCog },
-      { label: 'Roles', path: '/settings/roles', icon: KeyRound },
-      { label: 'Permission Matrix', path: '/settings/permissions', icon: Grid3X3 },
-      { label: 'Modules', path: '/settings/modules', icon: Boxes },
-      { label: 'Employee Profile', path: '/settings/employee-profile', icon: UserCheck },
-      { label: 'Organogram', path: '/settings/organogram', icon: GitBranch },
-      { label: 'Workforce Planning', path: '/settings/workforce', icon: Users },
-      { label: 'Locations', path: '/settings/locations', icon: MapPin },
-      { label: 'Settings', path: '/settings', icon: Settings },
-      { label: 'Notifications', path: '/notifications', icon: Bell },
+      { label: 'Users',              path: '/settings/users',             icon: UserCog,    hideRoles: ['BOOKING'] },
+      { label: 'Roles',              path: '/settings/roles',             icon: KeyRound,   hideRoles: ['BOOKING'] },
+      { label: 'Permission Matrix',  path: '/settings/permissions',       icon: Grid3X3,    hideRoles: ['BOOKING'] },
+      { label: 'Modules',            path: '/settings/modules',           icon: Boxes,      hideRoles: ['BOOKING'] },
+      { label: 'Employee Profile',   path: '/settings/employee-profile',  icon: UserCheck },
+      { label: 'Organogram',         path: '/settings/organogram',        icon: GitBranch,  hideRoles: ['BOOKING'] },
+      { label: 'Workforce Planning', path: '/settings/workforce',         icon: Users,      hideRoles: ['BOOKING'] },
+      { label: 'Locations',          path: '/settings/locations',         icon: MapPin,     hideRoles: ['BOOKING'] },
+      { label: 'Settings',           path: '/settings',                   icon: Settings,   hideRoles: ['BOOKING'] },
+      { label: 'Notifications',      path: '/notifications',              icon: Bell },
     ],
   },
 ];
@@ -214,7 +272,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
     >
       {/* Logo */}
       <div className="flex items-center gap-3 px-4 h-16 border-b border-slate-700/50 shrink-0">
-        <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center shrink-0">
+        <div className="w-8 h-8 rounded-lg bg-[#00a6fb] flex items-center justify-center shrink-0">
           <FlaskRound className="h-5 w-5 text-white" />
         </div>
         {!collapsed && (
@@ -266,7 +324,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
                     className={({ isActive }) =>
                       `flex items-center gap-3 px-2.5 py-2 rounded-lg text-sm font-medium transition-colors group ${
                         isActive
-                          ? 'bg-blue-600/20 text-blue-400'
+                          ? 'bg-[#00a6fb]/20 text-[#00a6fb]'
                           : 'text-slate-300 hover:bg-slate-800 hover:text-white'
                       } ${collapsed ? 'justify-center' : ''}`
                     }

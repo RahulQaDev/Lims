@@ -1,1 +1,57 @@
 @import "tailwindcss";
+
+/* ─── YLIMS Design System brand + dark mode ─────────────────────────────── */
+
+@theme {
+  --color-brand: #00a6fb;
+  --color-brand-hover: #0095e2;
+  --color-brand-light: rgba(0, 166, 251, 0.1);
+  --color-brand-ring: rgba(0, 166, 251, 0.5);
+}
+
+/* ─── Dashboard chart helper classes ─────────────────────────────────────── */
+@layer utilities {
+  .t-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .t-mono {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  }
+  .t-chip {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  }
+}
+
+/* ─── Slide-over panel animations ────────────────────────────────────────── */
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+@keyframes slideOutRight {
+  from { transform: translateX(0); }
+  to   { transform: translateX(100%); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@layer utilities {
+  .animate-slide-in-right {
+    animation: slideInRight 0.3s ease-out forwards;
+  }
+  .animate-slide-out-right {
+    animation: slideOutRight 0.2s ease-in forwards;
+  }
+  .animate-fade-in {
+    animation: fadeIn 0.2s ease-out forwards;
+  }
+}

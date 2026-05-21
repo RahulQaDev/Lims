@@ -22,7 +22,10 @@
       "Bash(curl -s http://localhost:5000/api/auth/login -X POST -H \"Content-Type: application/json\" -d '{\"\"username\"\":\"\"admin\"\",\"\"password\"\":\"\"admin123\"\"}')",
       "Bash(curl -s http://localhost:5000/api/health)",
       "Bash(curl -s http://localhost:5000/api/auth/login -X POST -H \"Content-Type: application/json\" -d \"{\"\"username\"\":\"\"admin\"\",\"\"password\"\":\"\"admin123\"\"}\")",
-      "Bash(curl -s http://localhost:5000/api/auth/login -X POST -H \"Content-Type: application/json\" -d \"{\"\"username\"\":\"\"sanjeev.danker\"\",\"\"password\"\":\"\"test123\"\"}\")"
+      "Bash(curl -s http://localhost:5000/api/auth/login -X POST -H \"Content-Type: application/json\" -d \"{\"\"username\"\":\"\"sanjeev.danker\"\",\"\"password\"\":\"\"test123\"\"}\")",
+      "Bash(dir server\\\\package.json)",
+      "Bash(node -e ' *)",
+      "PowerShell(Get-Process -Id 8988)"
     ]
   }
 }

@@ -41,6 +41,15 @@ db.Location = require('./Location')(sequelize, DataTypes);
 db.SampleTransfer = require('./SampleTransfer')(sequelize, DataTypes);
 db.LocationDepartment = require('./LocationDepartment')(sequelize, DataTypes);
 
+// Signatories module
+db.SignatoryTemplate     = require('./SignatoryTemplate')(sequelize, DataTypes);
+db.SignatoryDiscipline   = require('./SignatoryDiscipline')(sequelize, DataTypes);
+db.Signatory             = require('./Signatory')(sequelize, DataTypes);
+db.SignatoryAuthority    = require('./SignatoryAuthority')(sequelize, DataTypes);
+db.SignatorySubstitution = require('./SignatorySubstitution')(sequelize, DataTypes);
+db.SignatoryAbsence      = require('./SignatoryAbsence')(sequelize, DataTypes);
+db.SignatureAuditLog     = require('./SignatureAuditLog')(sequelize, DataTypes);
+
 // ==================== ASSOCIATIONS ====================
 
 // User <-> Department (many-to-many via DepartmentUser)
@@ -187,6 +196,37 @@ db.SampleTransfer.belongsTo(db.User, { foreignKey: 'requestedBy', as: 'requested
 db.SampleTransfer.belongsTo(db.User, { foreignKey: 'approvedBy', as: 'approvedByUser' });
 db.SampleTransfer.belongsTo(db.User, { foreignKey: 'receivedBy', as: 'receivedByUser' });
 db.Sample.hasMany(db.SampleTransfer, { foreignKey: 'sampleId', as: 'transfers' });
+
+// ==================== SIGNATORIES MODULE ASSOCIATIONS ====================
+
+// Signatory ↔ User (optional link for self-signing flow)
+db.Signatory.belongsTo(db.User, { foreignKey: 'userId', as: 'user' });
+db.User.hasOne(db.Signatory, { foreignKey: 'userId', as: 'signatory' });
+
+// SignatoryAuthority core relations
+db.SignatoryAuthority.belongsTo(db.Signatory, { foreignKey: 'signatoryId', as: 'signatory' });
+db.Signatory.hasMany(db.SignatoryAuthority, { foreignKey: 'signatoryId', as: 'authorities' });
+db.SignatoryAuthority.belongsTo(db.SignatoryTemplate, { foreignKey: 'templateId', as: 'template' });
+db.SignatoryTemplate.hasMany(db.SignatoryAuthority, { foreignKey: 'templateId', as: 'authorities' });
+db.SignatoryAuthority.belongsTo(db.SignatoryDiscipline, { foreignKey: 'disciplineId', as: 'discipline' });
+db.SignatoryDiscipline.hasMany(db.SignatoryAuthority, { foreignKey: 'disciplineId', as: 'authorities' });
+db.SignatoryAuthority.belongsTo(db.Signatory, { foreignKey: 'authorisedBy', as: 'authoriser' });
+
+// Substitution chain
+db.SignatorySubstitution.belongsTo(db.SignatoryAuthority, { foreignKey: 'primaryAuthorityId', as: 'primary' });
+db.SignatorySubstitution.belongsTo(db.SignatoryAuthority, { foreignKey: 'substituteAuthorityId', as: 'substitute' });
+db.SignatoryAuthority.hasMany(db.SignatorySubstitution, { foreignKey: 'primaryAuthorityId', as: 'substitutes' });
+
+// Absence
+db.SignatoryAbsence.belongsTo(db.Signatory, { foreignKey: 'signatoryId', as: 'signatory' });
+db.Signatory.hasMany(db.SignatoryAbsence, { foreignKey: 'signatoryId', as: 'absences' });
+
+// Audit log
+db.SignatureAuditLog.belongsTo(db.SignatoryTemplate, { foreignKey: 'templateId', as: 'template' });
+db.SignatureAuditLog.belongsTo(db.SignatoryDiscipline, { foreignKey: 'disciplineId', as: 'discipline' });
+db.SignatureAuditLog.belongsTo(db.Signatory, { foreignKey: 'signatoryId', as: 'signatory' });
+db.SignatureAuditLog.belongsTo(db.Signatory, { foreignKey: 'signedOnBehalfOf', as: 'principal' });
+db.SignatureAuditLog.belongsTo(db.SignatoryAuthority, { foreignKey: 'authorityId', as: 'authority' });
 
 // Export
 db.sequelize = sequelize;

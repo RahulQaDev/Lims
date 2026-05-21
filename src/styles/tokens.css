@@ -1,0 +1,67 @@
+/* Design tokens extracted from Auriga_Analyst_Dashboard_Final.html.
+   Use these for KPI widgets to keep visual language consistent across the app. */
+
+:root {
+  /* Ink / text */
+  --t-ink: #0f172a;
+  --t-ink-2: #334155;
+  --t-muted: #64748b;
+  --t-muted-2: #94a3b8;
+  --t-line: #e2e8f0;
+  --t-bg: #f8fafc;
+  --t-card: #ffffff;
+
+  /* Brand navy */
+  --t-navy: #0b1c3d;
+  --t-navy-2: #1e3a8a;
+  --t-blue: #2563eb;
+  --t-cyan: #06b6d4;
+
+  /* Status */
+  --t-green: #16a34a;
+  --t-green-bg: #f0fdf4;
+  --t-green-soft: #dcfce7;
+  --t-red: #dc2626;
+  --t-red-bg: #fef2f2;
+  --t-red-soft: #fee2e2;
+  --t-amber: #d97706;
+  --t-amber-bg: #fffbeb;
+  --t-amber-soft: #fef3c7;
+
+  /* Balanced Scorecard perspectives */
+  --t-tplan-customer: #2563eb;
+  --t-tplan-internal: #0b1c3d;
+  --t-tplan-learning: #16a34a;
+  --t-tplan-financial: #d97706;
+
+  /* Radii */
+  --t-radius: 10px;
+}
+
+/* Monospace numerals for KPI values */
+.t-mono {
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+/* Uppercase tiny labels used everywhere in the mock */
+.t-label {
+  font-size: 10px;
+  color: var(--t-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Balanced Scorecard chip base */
+.t-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  line-height: 1.2;
+}

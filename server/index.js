@@ -12,9 +12,13 @@ const app = express();
 const server = http.createServer(app);
 
 // Socket.io setup
+const corsOrigin = process.env.NODE_ENV === 'production'
+  ? (process.env.FRONTEND_URL || 'http://localhost:5173')
+  : /^http:\/\/localhost:\d+$/;
+
 const io = new Server(server, {
   cors: {
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+    origin: corsOrigin,
     methods: ['GET', 'POST'],
     credentials: true,
   },
@@ -41,7 +45,7 @@ io.on('connection', (socket) => {
 // Middleware
 app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: corsOrigin,
   credentials: true,
 }));
 app.use(morgan('dev'));
@@ -78,6 +82,7 @@ const dashboardRoutes = require('./routes/dashboard.routes');
 const locationRoutes = require('./routes/location.routes');
 const sampleTransferRoutes = require('./routes/sampleTransfer.routes');
 const bookingKpiRoutes = require('./routes/bookingKpi.routes');
+const signatoryRoutes = require('./routes/signatory.routes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
@@ -99,6 +104,7 @@ app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/locations', locationRoutes);
 app.use('/api/sample-transfers', sampleTransferRoutes);
 app.use('/api/booking-kpi', bookingKpiRoutes);
+app.use('/api/signatories', signatoryRoutes);
 
 // 404 handler
 app.use((req, res) => {

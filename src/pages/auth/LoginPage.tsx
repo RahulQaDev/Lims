@@ -1,10 +1,22 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogIn, User, Lock, AlertCircle } from 'lucide-react';
+import { LogIn, User, Lock, AlertCircle, KeyRound } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import Button from '../../components/ui/Button';
 import toast from 'react-hot-toast';
+
+const DEMO_ACCOUNTS: { role: string; username: string; password: string }[] = [
+  { role: 'Admin',     username: 'admin',          password: 'admin123' },
+  { role: 'Lab Head',  username: 'labhead',        password: 'labhead123' },
+  { role: 'QA Head',   username: 'qa_user',        password: 'test123' },
+  { role: 'Booking',   username: 'booking_user',   password: 'test123' },
+  { role: 'Reception', username: 'reception_user', password: 'test123' },
+  { role: 'Analyst',   username: 'analyst_user',   password: 'test123' },
+  { role: 'Reviewer',  username: 'reviewer_user',  password: 'test123' },
+  { role: 'Approver',  username: 'approver_user',  password: 'test123' },
+  { role: 'Accounts',  username: 'accounts_user',  password: 'test123' },
+];
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
@@ -12,6 +24,12 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const { login, isLoading } = useAuth();
   const navigate = useNavigate();
+
+  const fillDemo = (u: string, p: string) => {
+    setUsername(u);
+    setPassword(p);
+    setError('');
+  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -62,7 +80,7 @@ export default function LoginPage() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Enter your username"
-              className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-[#00a6fb] focus:border-[#00a6fb]"
               autoComplete="username"
               autoFocus
             />
@@ -80,7 +98,7 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
-              className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-[#00a6fb] focus:border-[#00a6fb]"
               autoComplete="current-password"
             />
           </div>
@@ -96,7 +114,31 @@ export default function LoginPage() {
         </Button>
       </form>
 
-      <p className="text-xs text-slate-500 text-center mt-6">
+      {/* ── Demo credentials ── */}
+      <div className="mt-6 rounded-lg border border-white/10 bg-white/5 p-4">
+        <div className="flex items-center gap-2 text-[11px] font-semibold text-slate-300 uppercase tracking-wider mb-3">
+          <KeyRound className="h-3 w-3" /> Demo Accounts
+          <span className="text-slate-500 font-normal normal-case tracking-normal">— click to fill</span>
+        </div>
+        <div className="grid grid-cols-2 gap-1.5 text-[11px]">
+          {DEMO_ACCOUNTS.map((a) => (
+            <button
+              key={a.username}
+              type="button"
+              onClick={() => fillDemo(a.username, a.password)}
+              className="flex items-center justify-between gap-2 rounded-md bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 px-2.5 py-1.5 text-left transition-colors"
+            >
+              <span className="text-slate-200 font-medium">{a.role}</span>
+              <span className="font-mono text-[10px] text-slate-400 truncate">{a.username}</span>
+            </button>
+          ))}
+        </div>
+        <p className="text-[10px] text-slate-500 mt-3 text-center">
+          Passwords: <span className="font-mono text-slate-400">admin123</span> · <span className="font-mono text-slate-400">labhead123</span> · <span className="font-mono text-slate-400">test123</span>
+        </p>
+      </div>
+
+      <p className="text-xs text-slate-500 text-center mt-4">
         Contact your administrator for account access
       </p>
     </div>

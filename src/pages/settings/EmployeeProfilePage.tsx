@@ -1,12 +1,20 @@
 import { useState, useMemo } from 'react';
 import {
-  User, Mail, Phone, Building2, Calendar, Briefcase, Shield,
+  Mail, Phone, Building2, Calendar, Briefcase, Shield,
   TrendingUp, TrendingDown, Minus, Target, BarChart3, Award,
   ChevronDown, ChevronUp,
 } from 'lucide-react';
 import { useRoleStore } from '../../stores/roleStore';
 import Badge from '../../components/ui/Badge';
-import type { EmployeeProfile, EmployeeKRA, EmployeeKPI, KRAItem, KPIBenchmark } from '../../types';
+import type { EmployeeProfile, KPIBenchmark } from '../../types';
+import {
+  GaugeCard,
+  HorizontalBarMatrix,
+  LineWithTarget,
+  KpiProgressTile,
+  MilestoneCard,
+} from '../../components/charts';
+import { MOCK_EMPLOYEE_KPIS } from '../../data/mocks/employee-profile.mock';
 
 // ── Mock employee (will be replaced by API later) ──
 const MOCK_EMPLOYEE: EmployeeProfile = {
@@ -158,6 +166,90 @@ export default function EmployeeProfilePage() {
             <span>Tenure: {tenure}</span>
           </div>
         </div>
+      </div>
+
+      {/* ═══ Attendance · KPI 21 ═══ */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <GaugeCard
+          label="Attendance"
+          value={MOCK_EMPLOYEE_KPIS.attendancePct}
+          sub={`${MOCK_EMPLOYEE_KPIS.attendanceDays.present} of ${MOCK_EMPLOYEE_KPIS.attendanceDays.total} days`}
+          tplan="learning"
+        />
+        <KpiProgressTile
+          label="Training Completion"
+          value={MOCK_EMPLOYEE_KPIS.trainingCompletionPct.toFixed(1)}
+          unit="%"
+          progress={`${MOCK_EMPLOYEE_KPIS.trainingsCompleted} / ${MOCK_EMPLOYEE_KPIS.trainingsAssigned}`}
+          percent={MOCK_EMPLOYEE_KPIS.trainingCompletionPct}
+          footerLeft="Target 100%"
+          tplan="learning"
+        />
+        <KpiProgressTile
+          label="Training Hours YTD"
+          value={MOCK_EMPLOYEE_KPIS.trainingHoursYtd}
+          unit=" hr"
+          progress={`of ${MOCK_EMPLOYEE_KPIS.trainingHoursTarget}`}
+          percent={(MOCK_EMPLOYEE_KPIS.trainingHoursYtd / MOCK_EMPLOYEE_KPIS.trainingHoursTarget) * 100}
+          tone="green"
+          footerLeft={`Target ${MOCK_EMPLOYEE_KPIS.trainingHoursTarget} hr/yr`}
+          tplan="learning"
+        />
+      </div>
+
+      {/* ═══ Training counts ═══ */}
+      <div>
+        <div className="t-label mb-2.5">Training · YTD</div>
+        <div className="grid grid-cols-3 gap-3">
+          <div className="bg-white border border-slate-200 rounded-[10px] p-4 flex flex-col">
+            <div className="t-label">Assigned</div>
+            <div className="t-mono text-[22px] font-bold mt-1 leading-none text-slate-900">{MOCK_EMPLOYEE_KPIS.trainingsAssigned}</div>
+            <div className="text-[11px] text-slate-500 mt-auto pt-2">YTD</div>
+          </div>
+          <div className="bg-white border border-slate-200 rounded-[10px] p-4 flex flex-col">
+            <div className="t-label">Completed</div>
+            <div className="t-mono text-[22px] font-bold mt-1 leading-none text-emerald-600">{MOCK_EMPLOYEE_KPIS.trainingsCompleted}</div>
+            <div className="text-[10px] text-slate-500 mt-auto pt-2 truncate">{MOCK_EMPLOYEE_KPIS.completedTrainingNames.join(' · ')}</div>
+          </div>
+          <div className="bg-white border-l-[3px] border-amber-500 border-y border-r border-slate-200 rounded-[10px] p-4 flex flex-col">
+            <div className="t-label">Pending</div>
+            <div className="t-mono text-[22px] font-bold mt-1 leading-none text-slate-900">{MOCK_EMPLOYEE_KPIS.trainingsPending}</div>
+            <div className="text-[11px] text-slate-500 mt-auto pt-2 truncate">{MOCK_EMPLOYEE_KPIS.pendingTrainingNames.join(' · ')}</div>
+          </div>
+        </div>
+      </div>
+
+      {/* ═══ Skill Matrix + Growth Path + Milestone ═══ */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+        <HorizontalBarMatrix
+          title="Skill Matrix"
+          subtitle={`Avg ${MOCK_EMPLOYEE_KPIS.skillsAverage.toFixed(1)} · L${MOCK_EMPLOYEE_KPIS.skillsTargetLevel}: ${MOCK_EMPLOYEE_KPIS.skills.filter((s) => s.level >= MOCK_EMPLOYEE_KPIS.skillsTargetLevel).length}`}
+          skills={MOCK_EMPLOYEE_KPIS.skills}
+          targetLevel={MOCK_EMPLOYEE_KPIS.skillsTargetLevel}
+          tplan="learning"
+        />
+        <LineWithTarget
+          title="Growth Path"
+          subtitle={`${MOCK_EMPLOYEE_KPIS.growthCurrentRole} → ${MOCK_EMPLOYEE_KPIS.growthNextRole}`}
+          bigValue={String(MOCK_EMPLOYEE_KPIS.growthPercent)}
+          bigUnit="%"
+          deltaChip={{ value: 0 }}
+          labels={MOCK_EMPLOYEE_KPIS.growthLabels}
+          actual={MOCK_EMPLOYEE_KPIS.growthActual.map((v) => v ?? NaN) as number[]}
+          target={MOCK_EMPLOYEE_KPIS.growthTarget}
+          color="#2563eb"
+          showLegend
+          height={220}
+          yMax={110}
+          tplan="learning"
+        />
+        <MilestoneCard
+          label="Next Milestone"
+          title={MOCK_EMPLOYEE_KPIS.milestoneTitle}
+          description="To unlock the next role:"
+          items={MOCK_EMPLOYEE_KPIS.milestoneItems}
+          tplan="learning"
+        />
       </div>
 
       {/* ── KRA Section ── */}
